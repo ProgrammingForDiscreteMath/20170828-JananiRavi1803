@@ -1,4 +1,4 @@
-from math import sqrt
+from math import *
 class ComplexNumber:
     """
     The class of complex numbers.
@@ -30,12 +30,24 @@ class ComplexNumber:
         root of the sum of squares of its real and imaginary parts.
         """
         return sqrt(self.real**2 + self.imaginary**2)
-    def sum(self, other):
+    def add(self, other):
         """
         Return the sum of ``self`` and ``other``.
         """
         return ComplexNumber(self.real + other.real, self.imaginary + other.imaginary)
-
+    def multiply(self, other):
+        """
+        Return the sum of ``self`` and ``other``.
+        """
+        return ComplexNumber((self.real*other.real) - (self.imaginary*other.imaginary), (self.imaginary*other.real) + (self.real*other.imaginary))
+    def complex_conjugate(self):
+        """
+        In-place method which does not return anything, but replaces the instance by its complex conjugate
+        """
+        self.real = self.real
+        self.imaginary = -self.imaginary
+        
+        
 class NonZeroComplexNumber(ComplexNumber):
     def __init__(self, real_part, imaginary_part):
         """
@@ -50,3 +62,19 @@ class NonZeroComplexNumber(ComplexNumber):
         """
         den = self.real**2 + self.imaginary**2
         return NonZeroComplexNumber(self.real/den, -self.imaginary/den)
+    def polar_coordinates(self):
+        """
+        Returns polar co-ordinates for the complex form
+        a + bi = rcos0 + i rsin0
+        """
+        (a, b) = (self.real, self.imaginary)
+        theta = atan(b/a)
+        r = sqrt(a**2 + b**2)
+        return (round(r, 2), round(theta, 2))
+    def logarithm(self):
+        """
+        Returns logarithm of complex number
+        log(a+bi) = log(r) + i*theta
+        """
+        a, b = self.polar_coordinates()
+        return NonZeroComplexNumber(round(log(a),2), round(b,2))
